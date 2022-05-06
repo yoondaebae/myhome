@@ -1,4 +1,4 @@
-package com.toto.web;
+package com.toto.controller;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.toto.web;
+package com.toto.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
