@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.JoinColumn;
 
 import lombok.Data;
@@ -28,5 +32,8 @@ public class User {
 	@JoinTable(name="user_role", 
 			    joinColumns={@JoinColumn(name="user_id")},              
 			    inverseJoinColumns={@JoinColumn(name="role_id")})
-	private List<Role> roles = new ArrayList<>();;
+	private List<Role> roles = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user")
+	private List<Board> boards = new ArrayList<Board>();
 }

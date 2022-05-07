@@ -1,7 +1,5 @@
 package com.toto.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.toto.model.Board;
 import com.toto.repository.BoardRepository;
+import com.toto.service.BoardService;
 import com.toto.validator.BoardValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +30,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@Autowired
 	private BoardValidator boardValidator;
@@ -60,14 +63,16 @@ public class BoardController {
 	}
 	
 	@PostMapping("/form")
-	public String boardSubmit(@Valid Board board, BindingResult bindingResult) {
+	public String boardSubmit(@Valid Board board, BindingResult bindingResult, Authentication authentication) {
 		
 		boardValidator.validate(board, bindingResult);
 		
 		if(bindingResult.hasErrors()) {
 			return "board/form";
 		}
-		boardRepository.save(board);
+		String username = authentication.getName();
+		boardService.save(username, board);
+		//boardRepository.save(board);
 		return "redirect:/board/list";
 	}
 	
