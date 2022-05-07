@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymelef.org">
+<html xmlns:th="http://www.thymelef.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
   <head th:fragment="head(title)">
     <!-- Required meta tags -->
@@ -28,6 +28,16 @@
 	          <a class="nav-link" th:classappend="${menu} == 'board'?'active'"  href="#" th:href="@{/board/list}">게시판</a>
 	        </li>
 	      </ul>
+
+	          <a class="btn btn-outline-light mx-2" th:href="@{/account/login}"
+	          	sec:authorize="!isAuthenticated()">로그인</a>
+	          <a class="btn btn-outline-warning mx-2" th:href="@{/account/register}"
+	          	sec:authorize="!isAuthenticated()">회원가입</a>	
+		    <form class="d-flex" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="POST">
+		      <span class="text-light mx-2" sec:authentication="name">사용자</span>
+		      <span class="text-light mx-2" sec:authentication="principal.authorities">권한</span>
+	          <button class="btn btn-outline-warning" type="submit">Logout</button>
+	        </form>
 	    </div>
 	  </div>
 	</nav>
